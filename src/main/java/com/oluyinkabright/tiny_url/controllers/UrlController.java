@@ -57,11 +57,17 @@ public class UrlController {
 
     @GetMapping("/r/{code}")
     public RedirectView redirectToLongUrl(@PathVariable String code) {
-        UrlMapping mapping = urlService.resolveAndIncrement(code);
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(mapping.getLongUrl());
-        redirectView.setStatusCode(HttpStatus.FOUND);
-        return redirectView;
+        try {
+            UrlMapping mapping = urlService.resolveAndIncrement(code);
+            RedirectView redirectView = new RedirectView();
+            redirectView.setUrl(mapping.getLongUrl());
+            redirectView.setStatusCode(HttpStatus.FOUND);
+            return redirectView;
+        } catch (Exception e) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Short URL not found"
+            );
+        }
     }
 
     @GetMapping("/api/urls/{code}")

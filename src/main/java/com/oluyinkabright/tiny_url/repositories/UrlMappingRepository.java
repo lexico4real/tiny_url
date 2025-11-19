@@ -14,6 +14,6 @@ public interface UrlMappingRepository extends JpaRepository<UrlMapping, Long> {
 
     boolean existsByCode(String code);
 
-    @Query("SELECT u FROM UrlMapping u WHERE u.longUrl = :longUrl AND (u.expiresAt IS NULL OR u.expiresAt > CURRENT_TIMESTAMP)")
+    @Query("SELECT u FROM UrlMapping u WHERE u.longUrl = :longUrl AND (u.expiresAt IS NULL OR u.expiresAt > FUNCTION('NOW'))")
     Optional<UrlMapping> findActiveByLongUrl(@Param("longUrl") String longUrl);
 }
