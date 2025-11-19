@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: tiny_url
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/tinyurl}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:Sokoto4me@237913}
+    driver-class-name: org.postgresql.Driver
+  hikari:
+    minimum-idle: 5
+    maximum-pool-size: 20
+    idle-timeout: 30000
+    pool-name: HikariDataSource
+    max-lifetime: 1800000
+    connection-timeout: 30000
+  jpa:
+    database-platform:  org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update # create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+app:
+  tiny-url:
+    base-url: http://localhost:8080
+  url:
+    default-expiry-days: 30
+    max-length: 2048
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.example.shortener: DEBUG

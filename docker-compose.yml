@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: tinyurl_db
+    environment:
+      POSTGRES_DB: tinyurl
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Sokoto4me@237913"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: tinyurl_app
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./pom.xml:/usr/src/app/pom.xml
+      - ./.mvn:/usr/src/app/.mvn
+      - ./mvnw:/usr/src/app/mvnw
+    environment:
+      SPRING_DOCKER_COMPOSE_ENABLED: "false"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tinyurl
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Sokoto4me@237913
+
+volumes:
+  db_data:
