@@ -1,5 +1,5 @@
 # Use a JDK image
-FROM eclipse-temurin:22-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 # Install bash for running commands
 RUN apk add --no-cache bash
@@ -21,4 +21,5 @@ COPY src ./src
 EXPOSE 8080
 
 # Run Spring Boot in dev mode
-CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.fork=false"]
+CMD ["./mvnw", "spring-boot:run", "-DskipTests", "-Dspring-boot.run.fork=false"]
+

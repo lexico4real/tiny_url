@@ -60,7 +60,6 @@ class CodeGeneratorTest {
         String code1 = codeGenerator.generateCode();
         String code2 = codeGenerator.generateCode();
 
-        // While there's a small chance of collision, it's very unlikely with proper randomness
         assertNotEquals(code1, code2);
     }
 }

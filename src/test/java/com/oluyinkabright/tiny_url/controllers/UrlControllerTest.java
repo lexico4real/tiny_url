@@ -33,7 +33,6 @@ class UrlControllerTest {
     @Autowired
     private UrlService urlService;
 
-    // FIXED: Move TestConfiguration outside the test class to avoid self-reference
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -54,7 +53,6 @@ class UrlControllerTest {
         when(urlService.createShortUrl(anyString(), any())).thenReturn(mapping);
         when(urlService.buildShortUrl(code)).thenReturn(shortUrl);
 
-        // FIXED: Use proper object creation instead of anonymous class with self-reference
         CreateUrlRequest request = new CreateUrlRequest(longUrl);
         String requestBody = objectMapper.writeValueAsString(request);
 
@@ -78,7 +76,6 @@ class UrlControllerTest {
 
     @Test
     void createShortUrl_shouldReturnBadRequestForInvalidUrl() throws Exception {
-        // FIXED: Use helper class
         CreateUrlRequest request = new CreateUrlRequest("invalid-url");
         String requestBody = objectMapper.writeValueAsString(request);
 

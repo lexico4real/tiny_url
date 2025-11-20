@@ -35,8 +35,7 @@ public class UrlController {
             @Valid @RequestBody UrlDto.CreateRequest request,
             HttpServletRequest servletRequest) {
 
-        // Rate limiting check
-        if (!bucket.tryConsume(1)) {
+        if (!bucket.tryConsume(5)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
                     .body("Rate limit exceeded. Try again later.");
         }

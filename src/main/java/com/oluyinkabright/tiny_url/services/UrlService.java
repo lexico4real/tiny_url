@@ -42,10 +42,8 @@ public class UrlService {
             return existing.get();
         }
 
-        // Generate unique code
         String code = codeGenerator.generateUniqueCode(repository::existsByCode);
 
-        // Calculate expiry
         Instant expiresAt = null;
         if (expiryDays != null && expiryDays > 0) {
             expiresAt = Instant.now().plus(expiryDays, ChronoUnit.DAYS);
@@ -53,7 +51,6 @@ public class UrlService {
             expiresAt = Instant.now().plus(defaultExpiryDays, ChronoUnit.DAYS);
         }
 
-        // Create and save mapping
         UrlMapping mapping = new UrlMapping(code, longUrl, expiresAt);
         return repository.save(mapping);
     }

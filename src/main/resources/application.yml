@@ -1,6 +1,9 @@
 spring:
   application:
     name: tiny_url
+  docker:
+    compose:
+      enabled: false
   devtools:
     restart:
       enabled: true
@@ -47,12 +50,14 @@ management:
     health:
       show-details: always
 
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+#springdoc:
+#  api-docs:
+#    path: /v1/api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    enabled: true
 
 logging:
   level:
-    com.example.shortener: DEBUG
+    com.oluyinkabright.tiny_url: DEBUG
+    org.springdoc: DEBUG

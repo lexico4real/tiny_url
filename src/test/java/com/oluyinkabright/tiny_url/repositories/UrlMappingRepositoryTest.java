@@ -84,8 +84,7 @@ class UrlMappingRepositoryTest {
 
     @Test
     void findActiveByLongUrl_shouldReturnNonExpiredMapping() {
-        // Use a clear future date
-        Instant future = Instant.now().plusSeconds(3600 * 24); // 1 day in future
+        Instant future = Instant.now().plusSeconds(3600 * 24);
         UrlMapping mapping = new UrlMapping("test123", "https://future-example.com", future);
 
         entityManager.persistAndFlush(mapping);
@@ -99,7 +98,6 @@ class UrlMappingRepositoryTest {
 
     @Test
     void findActiveByLongUrl_shouldNotReturnExpiredMapping() {
-        // Use a clear past date
         Instant past = Instant.now().minusSeconds(3600 * 24); // 1 day in past
         UrlMapping mapping = new UrlMapping("exp123", "https://past-example.com", past);
 
@@ -113,7 +111,6 @@ class UrlMappingRepositoryTest {
 
     @Test
     void findActiveByLongUrl_shouldReturnMappingWithNoExpiry() {
-        // FIXED: Use a valid code that meets the size constraint (max 10 characters)
         UrlMapping mapping = new UrlMapping("noexp123", "https://noexpiry-example.com", null);
         entityManager.persistAndFlush(mapping);
 

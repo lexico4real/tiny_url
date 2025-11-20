@@ -42,18 +42,9 @@ A high-performance, RESTful URL shortener microservice built with Spring Boot th
 git clone <repository-url>
 cd tiny_url
 
-# Run the application
-./mvnw spring-boot:run
-
-# Or build and run
-./mvnw clean package
-java -jar target/tiny_url-0.0.1-SNAPSHOT.jar
-```
-
-### With Docker Compose (PostgreSQL)
-
+### Run the app with Docker Compose
 ```bash
-# Start PostgreSQL and the application
+# Start PostgreSQL and the application (Avoid the stress of complex setup )
 docker-compose up --build
 
 # Or run in background
@@ -67,12 +58,12 @@ docker-compose up -d
 ./mvnw test
 
 # Run specific test categories
+./mvnw test   # All tests
 ./mvnw test -Dtest="*Test"           # Unit tests only
 ./mvnw test -Dtest="*IntegrationTest" # Integration tests only
 ./mvnw test -Dtest="*RepositoryTest"  # Repository tests only
+./mvnw test -Dtest=UrlShortenerIntegrationTest  # A specific test file
 
-# Run with coverage report
-./mvnw test jacoco:report
 ```
 
 ## API Documentation
@@ -135,28 +126,8 @@ GET /api/urls/{code}
 
 ```yaml
 # src/main/resources/application.yml
-app:
-  short-url:
-    base-url: http://localhost:8080
-  url:
-    default-expiry-days: 30
-    max-length: 2048
-
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: 
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: false
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,metrics,info
+INCLUDED BOTH application.yml and application-test.yml for seamless tests. 
+THE SECRETS ARE JUST FOR TESTING...
 ```
 
 ### Environment Variables

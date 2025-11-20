@@ -33,7 +33,6 @@ class UrlServiceTest {
     @BeforeEach
     void setUp() {
         urlService = new UrlService(repository, codeGenerator, metricsService);
-        // Set baseUrl through reflection or constructor if needed
     }
 
     @Test
