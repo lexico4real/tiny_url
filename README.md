@@ -15,7 +15,7 @@ A high-performance, RESTful URL shortener microservice built with Spring Boot th
 - **Idempotent Operations**: Same long URL returns same short code
 - **API Documentation**: OpenAPI 3 + Swagger UI
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Java 21** - Runtime environment
 - **Spring Boot 3.2** - Application framework
@@ -33,7 +33,7 @@ A high-performance, RESTful URL shortener microservice built with Spring Boot th
 - Maven 3.6+
 - Docker (optional, for PostgreSQL)
 
-## 🏃‍♂️ Quick Start
+## Quick Start
 
 ### Local Development (H2 Database)
 
@@ -175,26 +175,41 @@ docker build -t tiny-url-service .
 
 ### Docker Compose
 ```yaml
-version: '3.8'
+version: "3.9"
+
 services:
-  tiny-url:
+  db:
+    image: postgres:16
+    container_name: tinyurl_db
+    environment:
+      POSTGRES_DB: tinyurl
+      POSTGRES_USER: db_username
+      POSTGRES_PASSWORD: db_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
     build: .
+    container_name: tinyurl_app
+    depends_on:
+      - db
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/shortener
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=shortener
-      - POSTGRES_USER=shortener
-      - POSTGRES_PASSWORD=shortener
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./src:/usr/src/app/src
+      - ./pom.xml:/usr/src/app/pom.xml
+      - ./.mvn:/usr/src/app/.mvn
+      - ./mvnw:/usr/src/app/mvnw
+    environment:
+      SPRING_DOCKER_COMPOSE_ENABLED: "false"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tinyurl
+      SPRING_DATASOURCE_USERNAME: db_username
+      SPRING_DATASOURCE_PASSWORD: db_password
+
+volumes:
+  db_data:
 ```
 
 ## Monitoring & Metrics
@@ -236,7 +251,7 @@ services:
 - **No Authentication**: MVP focus, can be added later
 - **Simple Expiry**: Basic TTL, no background cleanup job
 
-## 🚧 Future Enhancements
+## Future Enhancements
 
 - [ ] User authentication and personalized URLs
 - [ ] Custom short code support
